@@ -1,0 +1,147 @@
+//Import Statements
+import React from 'react';
+import axios from 'axios';
+
+//for container
+import * as Styled from "../Style/styles";
+
+
+
+//Extract day of week from object
+function getDayOfWeek(date) {
+  const dayOfWeek = new Date(date).getDay();    
+  return isNaN(dayOfWeek) ? null : 
+    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayOfWeek];
+}
+
+//Export the weather from 3 cities as list
+export default class City extends React.Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        weatherListCity: [],
+        city : "New York"
+      }
+      this.handleClick = this.handleClick.bind(this);
+
+    }
+
+    //Default
+    async fetchData(){
+      axios.get('https://api.openweathermap.org/data/2.5/forecast?q='+ this.state.city + '&appid=' + process.env.REACT_APP_WEATHER_API_KEY)
+      .then(res => {
+        const weatherList = res.data.list;
+
+        //filter for only days (40 objects with 5 days will give us every 8 object being a new day - 5*8 = 40)
+        var finalWeatherList = []
+
+        for (var i = 1; i < weatherList.length; i+=8) {
+          finalWeatherList.push(weatherList[i]);
+        }
+
+        //extract values we want
+
+        //We want the icon, temparature, day of week and description of weather
+        //Temparature is in kelvin, to get Celsius we will need to subtract by 273.15 - fixed to whole number
+        //Icon is found within weather at the first index
+        //Date can be found under dt_txt as year-month-day time format (remove time) - then use function to extract day of week
+        //Description of weather is found within weather at first index
+        var result = finalWeatherList.map(finalWeatherList => ({ day : getDayOfWeek(finalWeatherList.dt_txt.split(' ')[0]), icon: finalWeatherList.weather[0].icon, temp: (finalWeatherList.main.temp - 273.15).toFixed(0) + '\u00b0' , description : finalWeatherList.weather[0].description}));
+
+        this.setState({ weatherListCity: result}, () => {
+          console.log(this.state.weatherListCity,'City');
+        }); 
+
+        })
+      }
+   
+    //Default
+    componentDidMount(){
+        
+      this.fetchData();
+          
+    }
+
+    handleClick = param => e =>{
+
+      this.setState({weatherListCity : [],city: param}, () => {
+        this.fetchData();
+      }); 
+
+    }
+
+      
+
+
+    render() {
+      return (
+
+       
+      <div>
+
+
+      <div class="container" style={{display: "flex"}}>
+      
+      <Styled.button onClick={this.handleClick("New York")}>New York</Styled.button>
+      <Styled.button onClick={this.handleClick("Toronto")}>Toronto</Styled.button>
+      <Styled.button onClick={this.handleClick("Tokyo")}>Tokyo</Styled.button>
+     
+      </div>
+
+      <Styled.weatherContainer>
+
+          {this.state.weatherListCity.filter((weather,idx) => idx == 0).map(weather =>
+            <Styled.dailyWeatherContainerTop>
+
+              <Styled.Title>
+                Today
+              </Styled.Title>
+            
+              <Styled.Temparature>
+              {weather.temp}
+              </Styled.Temparature>
+
+              <Styled.Description>
+              {weather.description}
+              </Styled.Description>
+
+              <Styled.Image>
+              {<img  src={"http://openweathermap.org/img/wn/" + weather.icon + "@2x.png"}  alt="WeatherIcon" className="img-responsive" height = "200px" width = "200px"/>} 
+              </Styled.Image>
+          
+          </Styled.dailyWeatherContainerTop>
+
+          )}
+
+        <div class="container" style={{display: "flex"}}>
+        {this.state.weatherListCity.filter((weather,idx) => idx > 0).map(weather =>
+            <Styled.dailyWeatherContainerBottom>
+
+              <Styled.Title>
+                {weather.day}
+              </Styled.Title>
+            
+              <Styled.TemparatureBottom>
+              {weather.temp}
+              </Styled.TemparatureBottom>
+
+              <Styled.Image>
+              {<img  src={"http://openweathermap.org/img/wn/" + weather.icon + "@2x.png"} className="img-responsive"  alt = "WeatherIcon" height = "200px" width = "200px"/>} 
+              </Styled.Image>
+          
+          </Styled.dailyWeatherContainerBottom>
+       )}
+
+
+   
+      </div>
+      </Styled.weatherContainer>
+      </div>    
+
+      );
+  }
+
+}
+
+    

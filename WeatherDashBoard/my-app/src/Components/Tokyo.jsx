@@ -33,6 +33,7 @@ export default class Tokyo extends React.Component {
       return (
         <ul>
           { this.state.weatherListTokyo}
+          <button onClick={this.handleClick.bind(this)}>Click Me</button>;
         </ul>
       )
     }
