@@ -134,7 +134,7 @@ align-self: right;
 
 
 const WeatherContainer = styled.div`
-  border: 0.5rem solid white;
+  border: 1rem solid white;
   border-radius: 1rem;
   margin: 1rem auto;
   background-color: #D4F1F4;
