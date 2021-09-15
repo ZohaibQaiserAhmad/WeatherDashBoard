@@ -37,7 +37,6 @@ const DailyWeatherContainer = styled.div`
     flex-direction: column;
     justify-content:centre;
     flex:0.25;
-    padding-bottom: 0.5rem;
     border: 0.1rem solid white;
     border-bottom : None;
    
@@ -54,7 +53,7 @@ const Temparature = styled.div`
 
 const Image = styled.div`
     margin : auto;
-    height = 140rem; 
+    height = 100rem; 
     width = 150rem;
 `;
 
