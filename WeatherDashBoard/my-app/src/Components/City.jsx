@@ -138,7 +138,7 @@ const WeatherContainer = styled.div`
   border-radius: 1rem;
   margin: 1rem auto;
   background-color: #D4F1F4;
-  height : 80vh;
+  height : 78vh;
   width : 70vw;
   box-shadow: 0 0 3pt 2pt #606060;
   
