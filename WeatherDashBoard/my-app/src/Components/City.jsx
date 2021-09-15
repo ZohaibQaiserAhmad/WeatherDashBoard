@@ -122,8 +122,8 @@ const fontsize = {
 const Button = styled.div`
 border: none;
 font-size: ${fontsize.H3FONTSIZE};
-margin-left:16rem;
-margin-right:10rem;
+margin-left:16vw;
+margin-right:10vw;
 background: none;
 align-self: right;
 &:hover{
@@ -134,11 +134,11 @@ align-self: right;
 
 
 const WeatherContainer = styled.div`
-  border: 10px solid white;
-  border-radius: 16px;
+  border: 0.5rem solid white;
+  border-radius: 1rem;
   margin: 1rem auto;
   background-color: #D4F1F4;
-  height : 85vh;
+  height : 80vh;
   width : 70vw;
   box-shadow: 0 0 3pt 2pt #606060;
   

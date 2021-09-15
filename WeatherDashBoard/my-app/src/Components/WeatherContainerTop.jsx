@@ -45,7 +45,7 @@ const DailyWeatherContainer = styled.div`
     flex-direction: column;
     justify-content:center:
     align-items:center;
-    padding: 24px;
+    padding: 1rem;
 `;
 
 
@@ -78,6 +78,7 @@ const Description = styled.div`
 
 const Title  = styled.div`
     font-size: ${fontsize.H3FONTSIZE};
+    margin : 1rem auto;
     font-weight: 100;
     font-family: "Lucida Console", "Courier New", monospace !important;
 `;

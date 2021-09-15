@@ -13,9 +13,9 @@ export default class WeatherContainerBottom extends Component {
               <Title>
                 {this.props.weather.day}
               </Title>
-              <div>
-              {<img  src={"http://openweathermap.org/img/wn/" + this.props.weather.icon + "@2x.png"} className="img-responsive"  alt = "WeatherIcon" height = "150rem" width = "150rem"/>} 
-              </div>
+              <Image>
+              {<img  src={"http://openweathermap.org/img/wn/" + this.props.weather.icon + "@2x.png"} className="img-responsive"  alt = "WeatherIcon"/>} 
+              </Image>
               <Temparature>
               {this.props.weather.temp}
               </Temparature>
@@ -37,8 +37,9 @@ const DailyWeatherContainer = styled.div`
     flex-direction: column;
     justify-content:centre;
     flex:0.25;
-    padding-bottom: 30px;
-    border: 1px solid white;
+    padding-bottom: 0.5rem;
+    border: 0.1rem solid white;
+    border-bottom : None;
    
     
 `;
@@ -48,10 +49,20 @@ const Temparature = styled.div`
     font-size: ${fontsize.H3FONTSIZE};
     font-weight: bold;
     font-family: "Lucida Console", "Courier New", monospace !important;
+    margin : auto;
 `;
+
+const Image = styled.div`
+    margin : auto;
+    height = 150rem; 
+    width = 150rem;
+`;
+
+
 
 const Title  = styled.div`
     font-size: ${fontsize.H3FONTSIZE};
     font-weight: 100;
     font-family: "Lucida Console", "Courier New", monospace !important;
+    margin : 1rem auto;
 `;
