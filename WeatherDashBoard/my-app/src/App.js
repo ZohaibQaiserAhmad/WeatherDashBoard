@@ -1,9 +1,6 @@
-import './App.css';
 
 //import cities component
 import City from './Components/City'
-
-
 
 
 function App() {

@@ -2,10 +2,13 @@
 import React from 'react';
 import axios from 'axios';
 
+
+//for weather
+import WeatherContainerTop from './WeatherContainerTop'
+import WeatherContainerBottom from './WeatherContainerBottom'
+
 //for container
-import * as Styled from "../Style/styles";
-
-
+import styled from 'styled-components';
 
 //Extract day of week from object
 function getDayOfWeek(date) {
@@ -16,12 +19,12 @@ function getDayOfWeek(date) {
 
 //Export the weather from 3 cities as list
 export default class City extends React.Component {
-
     constructor(props){
       super(props);
       this.state = {
         weatherListCity: [],
-        city : "New York"
+        city : "New York",
+        active : "New York"
       }
       this.handleClick = this.handleClick.bind(this);
 
@@ -50,7 +53,7 @@ export default class City extends React.Component {
         var result = finalWeatherList.map(finalWeatherList => ({ day : getDayOfWeek(finalWeatherList.dt_txt.split(' ')[0]), icon: finalWeatherList.weather[0].icon, temp: (finalWeatherList.main.temp - 273.15).toFixed(0) + '\u00b0' , description : finalWeatherList.weather[0].description}));
 
         this.setState({ weatherListCity: result}, () => {
-          console.log(this.state.weatherListCity,'City');
+          //console.log(this.state.weatherListCity,'City');
         }); 
 
         })
@@ -65,83 +68,78 @@ export default class City extends React.Component {
 
     handleClick = param => e =>{
 
-      this.setState({weatherListCity : [],city: param}, () => {
+      this.setState({weatherListCity : [],city: param , active : param}, () => {
+        console.log(param)
         this.fetchData();
       }); 
 
     }
 
-      
-
 
     render() {
-      return (
 
+      return (
        
       <div>
-
-
-      <div class="container" style={{display: "flex"}}>
+      <div className="container" style={{display: "flex"}}>
       
-      <Styled.button onClick={this.handleClick("New York")}>New York</Styled.button>
-      <Styled.button onClick={this.handleClick("Toronto")}>Toronto</Styled.button>
-      <Styled.button onClick={this.handleClick("Tokyo")}>Tokyo</Styled.button>
+      {['New York', 'Toronto', 'Tokyo'].map(city => 
+                    <Button  key={city}  style={{color: this.state.active === city ? "#ADD8E6" : "black"}} onClick={this.handleClick(city)}>{city}</Button>
+                )}
      
       </div>
 
-      <Styled.weatherContainer>
-
-          {this.state.weatherListCity.filter((weather,idx) => idx == 0).map(weather =>
-            <Styled.dailyWeatherContainerTop>
-
-              <Styled.Title>
-                Today
-              </Styled.Title>
+      <WeatherContainer>
+          {this.state.weatherListCity.filter((weather,index) => index === 0).map((weather,index) =>
             
-              <Styled.Temparature>
-              {weather.temp}
-              </Styled.Temparature>
-
-              <Styled.Description>
-              {weather.description}
-              </Styled.Description>
-
-              <Styled.Image>
-              {<img  src={"http://openweathermap.org/img/wn/" + weather.icon + "@2x.png"}  alt="WeatherIcon" className="img-responsive" height = "200px" width = "200px"/>} 
-              </Styled.Image>
-          
-          </Styled.dailyWeatherContainerTop>
+            <WeatherContainerTop  weather = {weather} key = {index}/>
 
           )}
 
-        <div class="container" style={{display: "flex"}}>
-        {this.state.weatherListCity.filter((weather,idx) => idx > 0).map(weather =>
-            <Styled.dailyWeatherContainerBottom>
+        <div className="container" style={{display: "flex"}}>
+        {this.state.weatherListCity.filter((weather,index) => index > 0).map((weather,index) =>
 
-              <Styled.Title>
-                {weather.day}
-              </Styled.Title>
+          <WeatherContainerBottom weather = {weather} key = {index} />
             
-              <Styled.TemparatureBottom>
-              {weather.temp}
-              </Styled.TemparatureBottom>
-
-              <Styled.Image>
-              {<img  src={"http://openweathermap.org/img/wn/" + weather.icon + "@2x.png"} className="img-responsive"  alt = "WeatherIcon" height = "200px" width = "200px"/>} 
-              </Styled.Image>
-          
-          </Styled.dailyWeatherContainerBottom>
        )}
-
-
    
       </div>
-      </Styled.weatherContainer>
+      </WeatherContainer>
       </div>    
 
       );
   }
-
 }
 
-    
+
+
+
+//Styles
+const fontsize = {
+  H3FONTSIZE: '2rem',
+}
+
+const Button = styled.div`
+border: none;
+font-size: ${fontsize.H3FONTSIZE};
+margin-left:16rem;
+margin-right:10rem;
+background: none;
+align-self: right;
+&:hover{
+    color: blue;
+  }
+`;
+
+
+
+const WeatherContainer = styled.div`
+  border: 10px solid white;
+  border-radius: 16px;
+  margin: 1rem auto;
+  background-color: #D4F1F4;
+  height : 85vh;
+  width : 70vw;
+  box-shadow: 0 0 3pt 2pt #606060;
+  
+`;
