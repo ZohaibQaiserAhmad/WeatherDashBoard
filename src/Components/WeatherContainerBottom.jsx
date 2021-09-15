@@ -54,7 +54,7 @@ const Temparature = styled.div`
 
 const Image = styled.div`
     margin : auto;
-    height = 150rem; 
+    height = 140rem; 
     width = 150rem;
 `;
 
